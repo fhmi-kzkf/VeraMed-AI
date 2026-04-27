@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9ff;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#75777e",
+                    "on-secondary-container": "#006f69",
+                    "primary-fixed": "#d6e3ff",
+                    "surface-container": "#e5eeff",
+                    "on-primary-fixed": "#0d1c32",
+                    "surface-container-high": "#dce9ff",
+                    "secondary-container": "#76f3ea",
+                    "error": "#ba1a1a",
+                    "secondary": "#006a65",
+                    "tertiary": "#000000",
+                    "secondary-fixed-dim": "#59dad1",
+                    "on-error": "#ffffff",
+                    "tertiary-container": "#191c1e",
+                    "surface-bright": "#f8f9ff",
+                    "surface-tint": "#515f78",
+                    "inverse-primary": "#b9c7e4",
+                    "outline-variant": "#c5c6cd",
+                    "on-primary-container": "#76849f",
+                    "inverse-surface": "#213145",
+                    "on-tertiary": "#ffffff",
+                    "primary": "#000000",
+                    "on-surface-variant": "#44474d",
+                    "surface-container-low": "#eff4ff",
+                    "tertiary-fixed": "#e0e3e5",
+                    "on-surface": "#0b1c30",
+                    "background": "#f8f9ff",
+                    "on-primary-fixed-variant": "#39475f",
+                    "surface-dim": "#cbdbf5",
+                    "secondary-fixed": "#79f6ed",
+                    "on-secondary-fixed-variant": "#00504c",
+                    "on-tertiary-container": "#818486",
+                    "primary-fixed-dim": "#b9c7e4",
+                    "tertiary-fixed-dim": "#c4c7c9",
+                    "surface-variant": "#d3e4fe",
+                    "on-background": "#0b1c30",
+                    "on-secondary": "#ffffff",
+                    "primary-container": "#0d1c32",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed": "#00201e",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface": "#f8f9ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#191c1e",
+                    "on-tertiary-fixed-variant": "#444749",
+                    "surface-container-lowest": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-sm": "12px",
+                    "stack-lg": "48px",
+                    "gutter": "24px",
+                    "stack-md": "24px",
+                    "container-padding": "32px",
+                    "unit": "8px",
+                    "sidebar-width": "280px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "data-mono": ["monospace"],
+                    "h2": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "h1": ["Inter"],
+                    "h3": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "data-mono": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                    "h2": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "h3": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background text-on-background overflow-hidden">
+<!-- Sidebar Navigation Shell -->
+<aside class="flex flex-col h-screen fixed overflow-y-auto bg-slate-950 dark:bg-black w-[280px] left-0 top-0 border-r border-slate-800 z-50">
+<div class="p-6 flex items-center gap-3">
+<div class="w-8 h-8 bg-on-secondary-container flex items-center justify-center rounded-sm">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">health_and_safety</span>
+</div>
+<div>
+<h1 class="text-teal-400 font-bold uppercase tracking-widest text-sm">VeraMed AI</h1>
+<p class="text-[10px] text-slate-500 font-medium">Clinical Fraud Intel</p>
+</div>
+</div>
+<nav class="flex-1 mt-4">
+<div class="px-6 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Main Menu</div>
+<a class="flex items-center gap-3 text-slate-400 py-3 px-6 opacity-70 hover:bg-slate-900 hover:text-white transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 bg-teal-500/10 text-white border-l-4 border-teal-400 py-3 px-6 hover:bg-slate-900 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-md text-label-md">Claims</span>
+</a>
+<a class="flex items-center gap-3 text-slate-400 py-3 px-6 opacity-70 hover:bg-slate-900 hover:text-white transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="manage_search">manage_search</span>
+<span class="font-label-md text-label-md">Audit Logs</span>
+</a>
+<a class="flex items-center gap-3 text-slate-400 py-3 px-6 opacity-70 hover:bg-slate-900 hover:text-white transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 text-slate-400 py-3 px-6 opacity-70 hover:bg-slate-900 hover:text-white transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-6 border-t border-slate-800">
+<button class="w-full py-3 bg-on-secondary-container text-white font-label-md text-label-md rounded-sm hover:brightness-110 transition-all mb-6">
+                Flag Urgent Claim
+            </button>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 text-slate-400 text-xs hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span>
+                    Support
+                </a>
+<a class="flex items-center gap-3 text-slate-400 text-xs hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="description">description</span>
+                    Documentation
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-[280px] h-screen flex flex-col">
+<!-- TopAppBar Navigation Shell -->
+<header class="flex justify-between items-center h-16 px-8 w-full sticky top-0 z-40 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 font-['Inter'] antialiased tracking-tight">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer">arrow_back</span>
+<h2 class="font-h3 text-h3 text-on-surface">Claim Verification: <span class="text-on-primary-container font-medium">#CLM-88291-ZX</span></h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="font-label-sm text-label-sm text-on-surface">Urgent Review Required</span>
+</div>
+<div class="flex items-center gap-4 text-slate-500">
+<span class="material-symbols-outlined hover:bg-slate-50 p-2 rounded-full transition-colors cursor-pointer" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined hover:bg-slate-50 p-2 rounded-full transition-colors cursor-pointer" data-icon="help_outline">help_outline</span>
+<span class="material-symbols-outlined hover:bg-slate-50 p-2 rounded-full transition-colors cursor-pointer" data-icon="settings">settings</span>
+</div>
+<div class="h-8 w-px bg-slate-200"></div>
+<div class="flex items-center gap-3">
+<img alt="User profile" class="w-8 h-8 rounded-full object-cover border border-slate-200" data-alt="Professional headshot of a female healthcare administrator in a clinical office setting with soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcLummJzZYXPRALQn78xcIrDaZ0NYd7gdJygtj0fdzsuReGZ58YxaHmbQAlh6836oS77A8xi4SYuyzdCwnqKmQRpSsxCtwSawuHdPaaRmhn3y7Ga_tBrmpyr3aCg4Q3xkO20lkWKVTYHNa6ffTU0GichAUcbF5lpJOZSaUphAkLTfh9jxN-2mcMMq6LhdexR_Jo4O9DXidlfjh6QzHTmkKqtqXz1Nw8ybPCiAjsub3ySlAWIxa9q6VG6D8tHuMjcHBcnVu9qwxJq7w"/>
+<div class="hidden lg:block">
+<p class="text-xs font-bold text-on-surface">Dr. Sarah Chen</p>
+<p class="text-[10px] text-on-primary-container">Chief Compliance Officer</p>
+</div>
+</div>
+</div>
+</header>
+<!-- Split View Content -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Left Side: Digital Medical Document Preview -->
+<section class="flex-1 bg-surface-container-low p-gutter overflow-y-auto">
+<div class="bg-white shadow-sm border border-outline-variant max-w-4xl mx-auto min-h-[1100px] p-12 relative">
+<!-- Letterhead -->
+<div class="flex justify-between items-start mb-12">
+<div>
+<h3 class="font-h3 text-h3 text-primary uppercase tracking-tight">ST. JUDE MEDICAL CENTER</h3>
+<p class="text-xs text-on-surface-variant">Central Administration Division</p>
+<p class="text-xs text-on-surface-variant">772 Medical Plaza, Suite 400</p>
+</div>
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface">DATE: OCT 24, 2023</p>
+<p class="text-xs text-on-surface-variant">INVOICE: #INV-0092281</p>
+</div>
+</div>
+<div class="border-t border-b border-slate-100 py-6 mb-8 grid grid-cols-2 gap-8">
+<div>
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Patient Information</p>
+<p class="font-label-md text-label-md text-on-surface">NAME: JAMESON, MICHAEL</p>
+<p class="text-xs text-on-surface-variant">DOB: 05/12/1978 (45Y)</p>
+<p class="text-xs text-on-surface-variant">MEMBER ID: 8820-11293-88</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Service Details</p>
+<p class="font-label-md text-label-md text-on-surface">PROCEDURE: CARDIAC CATHETERIZATION</p>
+<p class="text-xs text-on-surface-variant">CPT CODE: 93451</p>
+<p class="text-xs text-on-surface-variant">FACILITY: ST. JUDE - MAIN WING</p>
+</div>
+</div>
+<div class="mb-12">
+<table class="w-full text-left">
+<thead class="border-b-2 border-slate-900">
+<tr>
+<th class="py-3 font-label-md text-label-md">Description</th>
+<th class="py-3 font-label-md text-label-md text-right">Units</th>
+<th class="py-3 font-label-md text-label-md text-right">Amount</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<tr>
+<td class="py-4 text-sm text-on-surface">Cardiac Catheterization Procedure (Base)</td>
+<td class="py-4 text-sm text-on-surface text-right">1</td>
+<td class="py-4 text-sm text-on-surface text-right">$4,200.00</td>
+</tr>
+<tr class="bg-red-50/50">
+<td class="py-4 text-sm text-on-surface flex items-center gap-2">
+                                        Specialized Imaging Enhancement 
+                                        <span class="material-symbols-outlined text-error text-xs" style="font-variation-settings: 'FILL' 1;">warning</span>
+</td>
+<td class="py-4 text-sm text-on-surface text-right">3</td>
+<td class="py-4 text-sm text-error font-bold text-right">$12,450.00</td>
+</tr>
+<tr>
+<td class="py-4 text-sm text-on-surface">Pharmacy - Contrast Agent</td>
+<td class="py-4 text-sm text-on-surface text-right">2</td>
+<td class="py-4 text-sm text-on-surface text-right">$640.00</td>
+</tr>
+<tr>
+<td class="py-4 text-sm text-on-surface">Operating Room Time (per 30 min)</td>
+<td class="py-4 text-sm text-on-surface text-right">4</td>
+<td class="py-4 text-sm text-on-surface text-right">$2,800.00</td>
+</tr>
+</tbody>
+<tfoot>
+<tr class="border-t-2 border-slate-900">
+<td class="py-4 font-bold text-on-surface text-right" colspan="2">TOTAL CLAIM AMOUNT:</td>
+<td class="py-4 font-bold text-on-surface text-right text-lg">$20,090.00</td>
+</tr>
+</tfoot>
+</table>
+</div>
+<div class="mt-24 grid grid-cols-2 gap-12">
+<div class="border-t border-slate-200 pt-4">
+<p class="text-[10px] font-bold text-slate-400 uppercase mb-8">Patient Signature</p>
+<p class="font-['Sacramento'] text-2xl text-slate-800">Michael Jameson</p>
+</div>
+<div class="border-t border-slate-200 pt-4 relative">
+<p class="text-[10px] font-bold text-slate-400 uppercase mb-8">Attending Physician Signature</p>
+<div class="h-10 w-full bg-slate-50 flex items-center justify-center border-2 border-dashed border-red-200 rounded-sm">
+<span class="text-xs text-error font-medium uppercase tracking-tighter">Signature Field Empty</span>
+</div>
+<span class="absolute -top-2 -right-2 material-symbols-outlined text-error bg-white rounded-full text-xl" style="font-variation-settings: 'FILL' 1;">error</span>
+</div>
+</div>
+<!-- Analysis Overlays (UI Hints) -->
+<div class="absolute top-1/2 left-0 w-full h-24 bg-error/5 border-y border-error/20 pointer-events-none flex items-center justify-end px-12">
+<div class="bg-error text-white px-3 py-1 rounded-sm text-[10px] font-bold flex items-center gap-1 shadow-lg">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">analytics</span>
+                            STATISTICAL OUTLIER: +285% vs REGIONAL AVG
+                        </div>
+</div>
+</div>
+</section>
+<!-- Right Side: AI Analysis Panel -->
+<aside class="w-[450px] bg-white border-l border-outline-variant flex flex-col">
+<!-- Header Score Area -->
+<div class="p-8 border-b border-slate-100 bg-slate-50/50">
+<h3 class="font-label-md text-label-md text-on-primary-container uppercase tracking-widest mb-6">AI Risk Assessment</h3>
+<div class="relative flex flex-col items-center">
+<!-- Risk Gauge SVG -->
+<div class="relative w-48 h-48">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="45" stroke="#e2e8f0" stroke-dasharray="283" stroke-width="8"></circle>
+<circle cx="50" cy="50" fill="none" r="45" stroke="#ba1a1a" stroke-dasharray="278 283" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-4xl font-extrabold text-error">98.5</span>
+<span class="text-[10px] font-bold text-error uppercase tracking-widest">Risk Score</span>
+</div>
+</div>
+<div class="mt-6 w-full px-6 py-3 bg-error text-white text-center rounded-sm font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">emergency_home</span>
+                            CRITICAL ALERT: INFLATED COST
+                        </div>
+</div>
+</div>
+<!-- Explainable AI Section -->
+<div class="flex-1 overflow-y-auto p-8">
+<div class="mb-8">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-on-secondary-container" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<h4 class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Explainable AI Insights</h4>
+</div>
+<div class="space-y-4">
+<!-- Insight 1 -->
+<div class="p-4 border-l-4 border-error bg-surface-container-low rounded-r-lg">
+<div class="flex justify-between items-start mb-2">
+<span class="font-bold text-sm text-on-surface">Missing Doctor Signature</span>
+<span class="px-2 py-0.5 bg-error-container text-on-error-container text-[10px] font-bold rounded-full">HIGH IMPACT</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                                    VeraMed Vision Engine detected the attending physician's signature block is empty. This violates regulatory compliance standards for CPT-93451.
+                                </p>
+</div>
+<!-- Insight 2 -->
+<div class="p-4 border-l-4 border-error bg-surface-container-low rounded-r-lg">
+<div class="flex justify-between items-start mb-2">
+<span class="font-bold text-sm text-on-surface">Statistical Anomaly in Cost</span>
+<span class="px-2 py-0.5 bg-error-container text-on-error-container text-[10px] font-bold rounded-full">HIGH IMPACT</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                                    'Imaging Enhancement' line item ($12,450) is 285% higher than the regional median for this zip code. Model identifies this as potential "Upcoding" behavior.
+                                </p>
+</div>
+<!-- Insight 3 (Valid) -->
+<div class="p-4 border-l-4 border-on-secondary-container bg-surface-container-low rounded-r-lg">
+<div class="flex justify-between items-start mb-2">
+<span class="font-bold text-sm text-on-surface">Member Eligibility Verified</span>
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded-full">VALIDATED</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                                    Cross-referenced with payer database: Member ID 8820-11293-88 is active and covered for procedure.
+                                </p>
+</div>
+</div>
+</div>
+<!-- Confidence Scores -->
+<div class="mb-8">
+<h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Model Confidence</h4>
+<div class="space-y-3">
+<div>
+<div class="flex justify-between text-[10px] font-bold mb-1">
+<span>OCR EXTRACTION</span>
+<span>99.9%</span>
+</div>
+<div class="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
+<div class="bg-on-secondary-container h-full w-[99.9%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] font-bold mb-1">
+<span>FRAUD PREDICTION</span>
+<span>98.5%</span>
+</div>
+<div class="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
+<div class="bg-error h-full w-[98.5%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Action -->
+<div class="p-8 bg-slate-900 border-t border-slate-800">
+<div class="grid grid-cols-2 gap-4">
+<button class="py-3 px-4 bg-transparent border border-slate-700 text-white font-label-md text-label-md rounded-sm hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">close</span>
+                            Deny Claim
+                        </button>
+<button class="py-3 px-4 bg-on-secondary-container text-white font-label-md text-label-md rounded-sm hover:brightness-110 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">gavel</span>
+                            Manual Audit
+                        </button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</body></html>
