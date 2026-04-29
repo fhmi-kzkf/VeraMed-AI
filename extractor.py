@@ -230,9 +230,7 @@ def mock_extraction(filename: str = "") -> dict:
             "is_resume_complete": 0,
             "auth_signature": 0,
             "los": 1,
-            "ai_analysis": "Indikasi Inflated Cost | Klaim tidak sah secara administrasi. "
-                           "Biaya Rp 7.500.000 tidak wajar untuk diagnosis R50.9 (Demam tidak spesifik) "
-                           "dengan LOS hanya 1 hari; tanda tangan DPJP tidak ditemukan."
+            "ai_analysis": "Indikasi Inflated Cost | Klaim tidak sah secara administrasi. Biaya Rp 7.500.000 tidak wajar untuk diagnosis R50.9 (Demam tidak spesifik) dengan LOS hanya 1 hari; tanda tangan DPJP tidak ditemukan."
         },
         {
             "patient_age": 62,
@@ -242,9 +240,7 @@ def mock_extraction(filename: str = "") -> dict:
             "is_resume_complete": 1,
             "auth_signature": 1,
             "los": 5,
-            "ai_analysis": "Dokumen lengkap dengan tanda tangan DPJP yang valid. "
-                           "Diagnosis Diabetes Mellitus tipe-2 dengan komplikasi perifer "
-                           "sesuai dengan LOS 5 hari dan total biaya klaim."
+            "ai_analysis": "Dokumen lengkap dengan tanda tangan DPJP yang valid. Diagnosis Diabetes Mellitus tipe-2 dengan komplikasi perifer sesuai dengan LOS 5 hari dan total biaya klaim."
         },
         {
             "patient_age": 28,
@@ -254,8 +250,7 @@ def mock_extraction(filename: str = "") -> dict:
             "is_resume_complete": 0,
             "auth_signature": 1,
             "los": 4,
-            "ai_analysis": "Resume medis tidak lengkap — bagian ringkasan riwayat penyakit kosong. "
-                           "Diagnosis Dengue Hemorrhagic Fever (DHF) dengan biaya klaim masih dalam batas wajar."
+            "ai_analysis": "Resume medis tidak lengkap — bagian ringkasan riwayat penyakit kosong. Diagnosis Dengue Hemorrhagic Fever (DHF) dengan biaya klaim masih dalam batas wajar."
         }
     ]
     return rng.choice(scenarios)

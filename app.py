@@ -254,7 +254,7 @@ elif page == "Document Extractor":
                 with st.spinner("Gemini Vision is auditing document..."):
                     try:
                         file_bytes = doc_file.read()
-                        res = extract_from_document(file_bytes, doc_file.name, use_mock=True) # Fallback to mock for demo
+                        res = extract_from_document(file_bytes, doc_file.name)
                         st.session_state["last_ext"] = res
                     except Exception as e:
                         st.error(f"Extraction failed: {e}")
@@ -313,8 +313,21 @@ elif page == "Document Extractor":
         with c2:
             st.markdown("<h3 style='color: #000000;'>⚠️ Audit Findings</h3>", unsafe_allow_html=True)
             findings = res.get("ai_analysis", "No anomalies detected.").split("|")
+            
+            # Dynamic styling based on Risk Score
+            is_critical = pred['risk_score'] >= 70
+            box_bg = "#fff1f2" if is_critical else "#f0fdf4"
+            border_color = COLORS['error'] if is_critical else "#16a34a"
+            title_text = "ANOMALY DETECTED" if is_critical else "CLEARED / NORMAL"
+            title_color = COLORS['error'] if is_critical else "#15803d"
+            
             for f in findings:
-                st.markdown(f"<div class='flag-box'><div class='flag-title'>ANOMALY DETECTED</div><div class='flag-desc' style='color: #000000;'>{f.strip()}</div></div>", unsafe_allow_html=True)
+                st.markdown(f"""
+                <div style='background: {box_bg}; border-left: 4px solid {border_color}; padding: 16px; border-radius: 4px; margin-bottom: 12px;'>
+                    <div style='font-weight: 800; font-size: 12px; color: {title_color}; text-transform: uppercase; margin-bottom: 4px;'>{title_text}</div>
+                    <div style='font-size: 13px; color: #000000;'>{f.strip()}</div>
+                </div>
+                """, unsafe_allow_html=True)
 
 elif page == "Audit Logs":
     st.markdown(f"<h1 style='color: #000000;'>Audit History & Logs</h1><p style='color: #000000;'>Detailed trace of AI decisions and system activities.</p>", unsafe_allow_html=True)
