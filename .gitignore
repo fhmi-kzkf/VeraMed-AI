@@ -1,6 +1,6 @@
 .env
+.streamlit/secrets.toml
 __pycache__/
 *.pyc
-models/*.pkl
 *.egg-info/
 .DS_Store
