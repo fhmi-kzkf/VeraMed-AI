@@ -1,63 +1,63 @@
 # 🏥 VeraMed AI: BPJS Claim Fraud Detection & Medical Audit
 
-VeraMed AI adalah sistem deteksi anomali klaim kesehatan yang dirancang khusus untuk ekosistem BPJS Kesehatan Indonesia. Proyek ini menggabungkan kekuatan **Hybrid Machine Learning** untuk analisis data klaim massal dan **Gemini Vision AI** untuk audit kognitif terhadap dokumen rekam medis fisik.
+VeraMed AI is a healthcare claim anomaly detection system specifically designed for the Indonesian BPJS Kesehatan ecosystem. This project combines the power of **Hybrid Machine Learning** for mass claim data analysis and **Gemini Vision AI** for cognitive audits of physical medical record documents.
 
-## 📌 Mengapa VeraMed AI?
-Berdasarkan data riset, sekitar **59.43%** kendala klaim BPJS bersumber dari dokumentasi medis yang tidak lengkap atau tidak valid. VeraMed AI hadir untuk mengotomatisasi proses verifikasi ini, mendeteksi potensi *inflated cost*, dan memvalidasi keabsahan administrasi secara real-time.
+## 📌 Why VeraMed AI?
+Based on research data, approximately **59.43%** of BPJS claim issues stem from incomplete or invalid medical documentation. VeraMed AI automates this verification process, detects potential *inflated costs*, and validates administrative authenticity in real-time.
 
 ---
 
-## 🚀 Fitur Utama
+## 🚀 Key Features
 
 ### 1. Hybrid Risk Scoring
-Sistem menggunakan dua pendekatan model sekaligus untuk menghasilkan skor risiko (0-100):
-*   **Supervised (XGBoost)**: Mempelajari pola fraud dari data historis berlabel.
-*   **Unsupervised (Isolation Forest)**: Mendeteksi anomali statistik pada klaim yang terlihat "aneh" meskipun belum pernah ada presedennya (misal: biaya demam yang melonjak drastis).
+The system uses a dual-model approach to generate a risk score (0-100):
+*   **Supervised (XGBoost)**: Learns fraud patterns from historical labeled data.
+*   **Unsupervised (Isolation Forest)**: Detects statistical anomalies in claims that look "weird" even without precedent (e.g., drastically inflated fever treatment costs).
 
 ### 2. AI Medical Document Extractor (Gemini Vision)
-Modul audit kognitif yang mampu membaca foto atau PDF rekam medis untuk:
-*   Mengekstraksi data ke format JSON terstruktur.
-*   Memverifikasi keberadaan tanda tangan DPJP (Dokter Penanggung Jawab).
-*   Mengecek kelengkapan resume medis sesuai standar Permenkes.
+A cognitive audit module capable of reading photos or PDFs of medical records to:
+*   Extract data into a structured JSON format.
+*   Verify the presence of the attending physician's (DPJP) signature.
+*   Check the completeness of the medical resume according to Ministry of Health standards.
 
 ### 3. Interactive Analytics Dashboard
-Dashboard berbasis Streamlit yang menyajikan:
-*   Visualisasi distribusi biaya per kode ICD-10.
-*   Audit detail per klaim dengan penjelasan alasan anomali (Explainable AI).
-*   Eksport hasil audit ke dataset untuk pelatihan model berkelanjutan.
+A Streamlit-based dashboard presenting:
+*   Cost distribution visualization per ICD-10 code.
+*   Detailed claim audits with explanations for anomalies (Explainable AI).
+*   Export capabilities for audit results to datasets for continuous model training.
 
 ---
 
-## 🏗️ Arsitektur Sistem
+## 🏗️ System Architecture
 
 ```mermaid
 graph TD
-    A[📄 Dokumen Rekam Medis] --> B[👁️ Gemini Vision AI]
+    A[📄 Medical Record Document] --> B[👁️ Gemini Vision AI]
     B --> C{🔍 Clinical Rule Engine}
     C --> D[⚙️ Hybrid ML Scoring]
     D --> E[1. Supervised: XGBoost]
     D --> F[2. Unsupervised: Isolation Forest]
     E --> G[🏁 Final Risk Score]
     F --> G
-    G --> H[📊 Dashboard Analytics]
+    G --> H[📊 Analytics Dashboard]
 ```
 
 ---
 
 ## 📊 Model Performance Highlights
 
-Jangan biarkan angka efektivitas tersembunyi. Berikut adalah ringkasan performa **VeraEngine v4.2**:
+Here is the performance summary of **VeraEngine v4.2**:
 
 | Metric | Score | Note |
 | :--- | :--- | :--- |
 | **ROC-AUC** | **0.9886** | **Excellent Performance** |
 | XGBoost Accuracy | 95.0% | High precision in fraud pattern matching |
 | Fraud Miss Rate | 6.5% | Minimal leakage of suspicious claims |
-| Identified Risk | Rp 1.21 Billion | Potential saving from synthetic test data |
+| Identified Risk | Rp 1.21 Billion | Potential savings from synthetic test data |
 
 ---
 
-## 🛠️ Teknologi yang Digunakan
+## 🛠️ Technologies Used
 *   **Core**: Python 3.10+
 *   **Machine Learning**: XGBoost, Scikit-Learn (Isolation Forest)
 *   **AI Engine**: Google Gemini 2.0 Flash Lite (Vision API)
@@ -66,21 +66,21 @@ Jangan biarkan angka efektivitas tersembunyi. Berikut adalah ringkasan performa 
 
 ---
 
-## 📦 Instalasi & Persiapan
+## 📦 Installation & Setup
 
-1. **Clone Repository**
+1. **Clone the Repository**
    ```bash
    git clone https://github.com/username/VeraMed-Ai.git
    cd VeraMed-Ai
    ```
 
-2. **Instal Dependensi**
+2. **Install Dependencies**
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Konfigurasi Environment**
-   Salin file `.env.example` menjadi `.env` dan masukkan API Key Anda:
+3. **Environment Configuration**
+   Copy `.env.example` to `.env` and insert your API Key:
    ```env
    GOOGLE_API_KEY=AIzaSy...
    GEMINI_MODEL=gemini-2.0-flash-lite
@@ -89,59 +89,59 @@ Jangan biarkan angka efektivitas tersembunyi. Berikut adalah ringkasan performa 
 
 ---
 
-## 💻 Cara Penggunaan
+## 💻 Usage Guide
 
-### A. Melatih Model
-Jalankan script training untuk menghasilkan model `.pkl` terbaru berdasarkan dataset sintetis:
+### A. Train the Model
+Run the training script to generate the latest `.pkl` model based on the synthetic dataset:
 ```bash
 python train_model.py
 ```
 
-### B. Evaluasi Model
-Lihat laporan performa model secara mendalam (Accuracy, Precision, Recall, ROC-AUC):
+### B. Evaluate the Model
+View an in-depth model performance report (Accuracy, Precision, Recall, ROC-AUC):
 ```bash
 python evaluate_model.py
 ```
 
-### C. Menjalankan Dashboard
-Jalankan aplikasi web lokal:
+### C. Run the Dashboard
+Launch the local web application:
 ```bash
 streamlit run app.py
 ```
 
 ---
 
-## 🧠 Arsitektur Logika Audit
-VeraMed AI tidak hanya mengandalkan angka, tapi juga aturan medis yang kaku:
-1.  **Inflated Cost**: Jika diagnosa adalah `R50.9` (Demam) namun biaya > Rp 5.000.000.
-2.  **Admin Validity**: Klaim otomatis ditandai berisiko tinggi jika tanda tangan dokter tidak terdeteksi oleh AI (bobot pengaruh 50.69%).
-3.  **Short Stay High Cost**: Durasi inap (LOS) hanya 1 hari namun biaya melampaui ambang batas prosedur ringan.
+## 🧠 Audit Logic Architecture
+VeraMed AI does not solely rely on numbers, but also strict medical rules:
+1.  **Inflated Cost**: If the diagnosis is `R50.9` (Fever) but the cost > Rp 5,000,000.
+2.  **Admin Validity**: Claims are automatically flagged as high risk if the doctor's signature is not detected by AI (50.69% weight impact).
+3.  **Short Stay High Cost**: Length of stay (LOS) is only 1 day, but the cost exceeds the threshold for minor procedures.
 
 ---
 
-## 📄 Struktur Proyek
+## 📄 Project Structure
 ```text
-├── app.py                   # Entry point aplikasi dashboard
-├── train_model.py           # Pipeline pelatihan ML
-├── evaluate_model.py        # Metrik evaluasi performa
-├── extractor.py             # Engine OCR & Audit Gemini
-├── pages/                   # Modul halaman tambahan Streamlit
-├── models/                  # Folder penyimpanan model .pkl
-└── bpjs_claims_synthetic.csv # Dataset pelatihan
+├── app.py                   # Dashboard application entry point
+├── train_model.py           # ML training pipeline
+├── evaluate_model.py        # Performance evaluation metrics
+├── extractor.py             # Gemini OCR & Audit engine
+├── pages/                   # Additional Streamlit page modules
+├── models/                  # Directory for saved .pkl models
+└── bpjs_claims_synthetic.csv # Training dataset
 ```
 
 ---
 
 ## 🛡️ Data Privacy & Future Roadmap
 
-Mengingat sensitivitas data kesehatan, VeraMed AI dirancang dengan visi tata kelola data yang ketat:
+Given the sensitivity of healthcare data, VeraMed AI is designed with a strict data governance vision:
 
-*   **Prototype Phase**: Saat ini menggunakan **Gemini 2.0 Flash Lite** untuk ekstraksi dokumen kognitif yang cepat dan akurat melalui enkripsi TLS.
-*   **Production Phase**: Transisi ke **Gemma (Local LLM)** yang dideploy secara *on-premise* menggunakan infrastruktur **AWS SageMaker**. Langkah ini memastikan kedaulatan data penuh dan kepatuhan terhadap regulasi privasi data pasien (**GDPR** & **UU PDP Indonesia**), di mana data medis tidak pernah keluar dari jaringan internal rumah sakit/BPJS.
+*   **Prototype Phase**: Currently utilizing **Gemini 2.0 Flash Lite** for fast and accurate cognitive document extraction via TLS encryption.
+*   **Production Phase**: Transitioning to **Gemma (Local LLM)** deployed *on-premise* using **AWS SageMaker** infrastructure. This step ensures full data sovereignty and compliance with patient data privacy regulations (**GDPR** & **UU PDP Indonesia**), where medical data never leaves the internal hospital/BPJS network.
 
 ---
 
-## ⚖️ Lisensi & Disclaimer
-Sistem ini merupakan alat bantu verifikasi (Decision Support System) dan bukan pengganti verifikator manusia sepenuhnya. Seluruh data yang digunakan dalam demo ini adalah data sintetis yang dihasilkan secara acak untuk tujuan pengembangan.
+## ⚖️ License & Disclaimer
+This system is a Decision Support System and is not intended to fully replace human verifiers. All data used in this demo is randomly generated synthetic data for developmental purposes.
 
 © 2026 **VeraMed AI Team**

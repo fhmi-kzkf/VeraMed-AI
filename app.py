@@ -81,6 +81,12 @@ st.markdown(f"""
     [data-testid="stWidgetLabel"] p {{ color: #000000 !important; font-weight: 600 !important; }}
     .stSelectbox label p, .stTextInput label p, .stDateInput label p {{ color: #000000 !important; }}
     
+    /* File Uploader Text */
+    [data-testid="stFileUploader"] div, 
+    [data-testid="stFileUploader"] p, 
+    [data-testid="stFileUploader"] small, 
+    [data-testid="stFileUploader"] span {{ color: #000000 !important; }}
+    
     /* Sidebar Buttons */
     .sidebar-btn {{ 
         display: flex; align-items: center; gap: 12px; padding: 12px 16px; 
@@ -265,6 +271,29 @@ elif page == "Document Extractor":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+        
+        st.markdown("<h3 style='color: #000000; margin-top: 16px;'>📥 Download Demo Scenarios</h3>", unsafe_allow_html=True)
+        st.markdown("<p style='color: #000000; font-size: 13px;'>Test the AI by downloading these dummy medical records and uploading them on the left.</p>", unsafe_allow_html=True)
+        
+        scenarios = [
+            ("Skenario_A_DM_VIP_Lengkap.pdf", "Skenario A (Normal)"),
+            ("Skenario_B_Febris_Biaya_Anomali.pdf", "Skenario B (Inflated Cost)"),
+            ("Skenario_C_DHF_TandaTangan_Kosong.pdf", "Skenario C (No Signature)"),
+            ("Skenario_D_Riwayat_Kosong.pdf", "Skenario D (Incomplete)")
+        ]
+        
+        cols = st.columns(2)
+        for i, (file_name, label) in enumerate(scenarios):
+            file_path = BASE_DIR / file_name
+            if file_path.exists():
+                with open(file_path, "rb") as f:
+                    cols[i % 2].download_button(
+                        label=f"📄 {label}",
+                        data=f,
+                        file_name=file_name,
+                        mime="application/pdf",
+                        use_container_width=True
+                    )
 
     if "last_ext" in st.session_state:
         st.divider()
@@ -411,11 +440,59 @@ elif page == "New Audit":
         
         st.markdown("---")
         st.markdown("<h3 style='color: #000000;'>Data Ingestion</h3>", unsafe_allow_html=True)
-        st.file_uploader("Upload Claims CSV Batch")
+        
+        sample_path = BASE_DIR / "sample_batch_claims_Q2.csv"
+        if sample_path.exists():
+            with open(sample_path, "rb") as f:
+                st.download_button(
+                    label="📥 Download Sample Batch CSV",
+                    data=f,
+                    file_name="sample_batch_claims_Q2.csv",
+                    mime="text/csv"
+                )
+                
+        batch_file = st.file_uploader("Upload Claims CSV Batch", type=["csv"])
         
         if st.button("Initialize VeraEngine v4.2 Audit", type="primary", width='stretch'):
-            st.balloons()
-            st.success("Audit initialized successfully!")
+            if batch_file is not None:
+                with st.spinner("VeraEngine is processing batch data..."):
+                    import time
+                    time.sleep(1.5) # simulate processing delay for effect
+                    batch_df = pd.read_csv(batch_file)
+                    
+                    results = []
+                    for _, row in batch_df.iterrows():
+                        pred = predict_single(row.to_dict(), assets)
+                        row_dict = row.to_dict()
+                        row_dict.update(pred)
+                        results.append(row_dict)
+                    
+                    res_df = pd.DataFrame(results)
+                    
+                    # Update the main database so Dashboard is updated
+                    if RESULT_PATH.exists():
+                        main_df = pd.read_csv(RESULT_PATH)
+                        # Ensure columns match, fill missing like is_fraud with 0
+                        for col in main_df.columns:
+                            if col not in res_df.columns:
+                                res_df[col] = 0
+                        updated_df = pd.concat([main_df, res_df[main_df.columns]], ignore_index=True)
+                        updated_df.to_csv(RESULT_PATH, index=False)
+                    
+                    st.balloons()
+                    st.success(f"Audit completed! Processed {len(res_df)} claims and updated the Dashboard database.")
+                    
+                    st.markdown("<h4 style='color: #000000; margin-top: 16px;'>Top High-Risk Findings</h4>", unsafe_allow_html=True)
+                    critical_df = res_df[res_df['risk_score'] >= 70].sort_values('risk_score', ascending=False)
+                    st.error(f"⚠️ Found {len(critical_df)} CRITICAL anomalies requiring manual review.")
+                    
+                    if len(critical_df) > 0:
+                        st.dataframe(critical_df[['claim_id', 'icd_10_code', 'total_cost', 'risk_score', 'risk_label']].head(20), use_container_width=True)
+                    else:
+                        st.info("No critical anomalies found. Displaying general claims.")
+                        st.dataframe(res_df[['claim_id', 'icd_10_code', 'total_cost', 'risk_score', 'risk_label']].head(10), use_container_width=True)
+            else:
+                st.warning("Please upload a CSV file first!")
 
 else:
     st.title(page)
