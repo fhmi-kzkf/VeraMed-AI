@@ -1,8 +1,4 @@
-"""
-evaluate_model.py — Evaluasi Lengkap Model Deteksi Fraud BPJS
-Menampilkan semua metrik: Classification Report, Confusion Matrix,
-ROC-AUC, IsolationForest stats, Hybrid Score distribution, Feature Importance.
-"""
+# evaluate_model.py - BPJS Fraud Detection Evaluation Script
 
 import os, sys, joblib
 import numpy as np
@@ -113,10 +109,10 @@ print(f"  Confusion Matrix:")
 print(f"  {'':20s}  Predicted Normal  Predicted Fraud")
 print(f"  {'Actual Normal':20s}  {tn:^16}  {fp:^15}")
 print(f"  {'Actual Fraud':20s}  {fn:^16}  {tp:^15}")
-print(f"\n  True  Positives (TP) : {tp}  — Fraud terdeteksi dengan benar")
-print(f"  True  Negatives (TN) : {tn}  — Normal diklasifikasi benar")
-print(f"  False Positives (FP) : {fp}   — Normal salah dianggap Fraud (False Alarm)")
-print(f"  False Negatives (FN) : {fn}   — Fraud lolos tidak terdeteksi (Berbahaya!)")
+print(f"\n  True  Positives (TP) : {tp}")
+print(f"  True  Negatives (TN) : {tn}")
+print(f"  False Positives (FP) : {fp}")
+print(f"  False Negatives (FN) : {fn}")
 print(f"\n  Specificity          : {tn/(tn+fp):.4f}")
 print(f"  Negative Pred. Value : {tn/(tn+fn):.4f}")
 print(f"  Miss Rate (FN Rate)  : {fn/(fn+tp):.4f}  ({fn/(fn+tp)*100:.1f}%)")
@@ -159,15 +155,15 @@ print(f"  Contamination Parameter    : 0.25 (25%)")
 print(f"  n_estimators               : 200 trees")
 print(f"\n  Perbandingan dengan Label Sebenarnya:")
 print(f"    True  Positives (TP)     : {iso_tp}")
-print(f"    False Positives (FP)     : {iso_fp}  (over-flagging)")
+print(f"    False Positives (FP)     : {iso_fp}")
 print(f"    True  Negatives (TN)     : {iso_tn}")
 print(f"    False Negatives (FN)     : {iso_fn}")
 print(f"\n    Precision                : {iso_prec:.4f}")
 print(f"    Recall                   : {iso_rec:.4f}")
 print(f"    F1-Score                 : {iso_f1:.4f}")
 print(f"\n  Anomaly Score Stats:")
-print(f"    Min Score (paling aneh)  : {iso_scores.min():.4f}")
-print(f"    Max Score (paling normal): {iso_scores.max():.4f}")
+print(f"    Min Score                : {iso_scores.min():.4f}")
+print(f"    Max Score                : {iso_scores.max():.4f}")
 print(f"    Mean Score               : {iso_scores.mean():.4f}")
 print(f"    Std  Score               : {iso_scores.std():.4f}")
 
@@ -176,7 +172,7 @@ fraud_scores  = iso_scores[y == 1]
 normal_scores = iso_scores[y == 0]
 print(f"\n  Anomaly Score (Fraud claims)  — Mean: {fraud_scores.mean():.4f}  Std: {fraud_scores.std():.4f}")
 print(f"  Anomaly Score (Normal claims) — Mean: {normal_scores.mean():.4f}  Std: {normal_scores.std():.4f}")
-print(f"  Separability (delta mean)     : {normal_scores.mean() - fraud_scores.mean():.4f}  (lebih besar = lebih baik)")
+print(f"  Separability (delta mean)     : {normal_scores.mean() - fraud_scores.mean():.4f}")
 
 # ════════════════════════════════════════════════════════════
 # 4. HYBRID RISK SCORE
@@ -282,10 +278,7 @@ print(f"""
 
   KESIMPULAN
   ─────────────────────────────────────────────────────────
-  Model XGBoost menunjukkan performa EXCELLENT dengan ROC-AUC
-  {roc:.4f} dan Accuracy {acc*100:.2f}%. Hanya {fn} klaim fraud yang
-  lolos tidak terdeteksi dari total {n_fraud} kasus fraud.
-  Fitur paling berpengaruh adalah [{top_feat}].
+  ROC-AUC: {roc:.4f} | Accuracy: {acc*100:.2f}% | Top Feature: [{top_feat}]
 """)
 sep()
 print("  Evaluasi selesai.")

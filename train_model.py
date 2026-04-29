@@ -1,12 +1,5 @@
-"""
-================================================================================
-  train_model.py — Pelatihan Model Deteksi Anomali Klaim BPJS Kesehatan
-================================================================================
-  Arsitektur: Hybrid (Unsupervised IsolationForest + Supervised XGBoost)
-  Output     : Model tersimpan di folder /models/
-  Author     : VeraMed AI — Senior AI Engineering Team
-================================================================================
-"""
+# train_model.py - BPJS Claims Anomaly Detection
+# Hybrid Architecture: Unsupervised (IsolationForest) + Supervised (XGBoost)
 
 import os
 import joblib
@@ -18,21 +11,16 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, roc_auc_score, confusion_matrix
 from xgboost import XGBClassifier
 
-# ============================================================
-# 1. KONFIGURASI PATH & KONSTANTA
-# ============================================================
+# Constants & Paths
 BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH   = os.path.join(BASE_DIR, "bpjs_claims_synthetic.csv")
 MODEL_DIR   = os.path.join(BASE_DIR, "models")
 os.makedirs(MODEL_DIR, exist_ok=True)
 
-# Bobot untuk Hybrid Risk Score:
-# Diberi bobot lebih besar ke supervised karena data berlabel tersedia.
-# Komponen dokumentasi (is_resume_complete=0) mendapat bobot tambahan 15%
-# sesuai temuan riset bahwa 59.43% masalah ada pada dokumentasi tidak lengkap.
-W_SUPERVISED   = 0.55   # bobot XGBoost
-W_UNSUPERVISED = 0.30   # bobot IsolationForest
-W_DOCUMENTATION = 0.15  # bobot penalti dokumentasi tidak lengkap
+# Hybrid Risk Score Weights
+W_SUPERVISED   = 0.55
+W_UNSUPERVISED = 0.30
+W_DOCUMENTATION = 0.15
 
 # Kolom fitur yang akan digunakan oleh model
 FEATURE_COLS = [
@@ -40,18 +28,8 @@ FEATURE_COLS = [
     "total_cost", "is_resume_complete", "auth_signature", "los"
 ]
 
-# ============================================================
-# 2. FUNGSI: MEMUAT & MEMPERSIAPKAN DATA
-# ============================================================
 def load_and_prepare(path: str) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """
-    Memuat CSV, menangani missing values, dan melakukan encoding
-    pada kolom kategorikal (room_type, icd_10_code).
-
-    Returns:
-        df_raw   — DataFrame asli (sebelum encoding, untuk ditampilkan di UI)
-        df_proc  — DataFrame yang sudah diproses & siap untuk model
-    """
+    """Load and preprocess dataset, handle missing values, and encode categoricals."""
     print(f"[INFO] Memuat dataset dari: {path}")
     df_raw = pd.read_csv(path)
 
@@ -89,17 +67,8 @@ def load_and_prepare(path: str) -> tuple[pd.DataFrame, pd.DataFrame]:
     return df_raw, df_proc
 
 
-# ============================================================
-# 3. FUNGSI: LATIH MODEL UNSUPERVISED — IsolationForest
-# ============================================================
 def train_isolation_forest(X: np.ndarray) -> IsolationForest:
-    """
-    Melatih IsolationForest untuk mendeteksi pola yang 'aneh' secara statistik
-    tanpa bergantung pada label is_fraud.
-
-    contamination=0.25 berarti model mengasumsikan ~25% data mungkin anomali,
-    sedikit lebih tinggi dari proporsi fraud sebenarnya untuk meningkatkan recall.
-    """
+    """Train unsupervised IsolationForest model."""
     print("\n[TRAIN] Melatih IsolationForest (Unsupervised)...")
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
@@ -120,14 +89,8 @@ def train_isolation_forest(X: np.ndarray) -> IsolationForest:
     return iso_forest, scaler
 
 
-# ============================================================
-# 4. FUNGSI: LATIH MODEL SUPERVISED — XGBoost Classifier
-# ============================================================
 def train_xgboost(X: np.ndarray, y: np.ndarray) -> XGBClassifier:
-    """
-    Melatih XGBClassifier untuk memprediksi is_fraud berdasarkan label historis.
-    scale_pos_weight digunakan untuk menangani class imbalance (lebih banyak normal).
-    """
+    """Train supervised XGBoost Classifier."""
     print("\n[TRAIN] Melatih XGBoost (Supervised)...")
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42, stratify=y
@@ -171,25 +134,12 @@ def train_xgboost(X: np.ndarray, y: np.ndarray) -> XGBClassifier:
     return xgb_model
 
 
-# ============================================================
-# 5. FUNGSI: HITUNG HYBRID RISK SCORE
-# ============================================================
 def compute_hybrid_score(
     xgb_proba: np.ndarray,
     iso_scores: np.ndarray,
     is_resume_complete: np.ndarray
 ) -> np.ndarray:
-    """
-    Menggabungkan sinyal dari dua model menjadi satu Risk Score (0–100).
-
-    Formula:
-      risk_score = (W_SUPERVISED   × P_xgb)
-                 + (W_UNSUPERVISED × P_iso)
-                 + (W_DOCUMENTATION × penalti_dokumentasi)
-
-    P_iso dihitung dari anomaly score IsolationForest yang dinormalisasi ke [0,1].
-    Penalti dokumentasi = 1.0 jika is_resume_complete=0, else 0.0.
-    """
+    """Compute combined hybrid risk score [0-100]."""
     # Normalisasi anomaly score IF ke range [0, 1]
     # IsolationForest memberi nilai negatif untuk anomali (semakin negatif = semakin aneh)
     iso_min, iso_max = iso_scores.min(), iso_scores.max()
@@ -212,14 +162,8 @@ def compute_hybrid_score(
     return hybrid_score
 
 
-# ============================================================
-# 6. FUNGSI: SIMPAN METADATA FITUR
-# ============================================================
 def save_feature_metadata(feature_cols: list, icd_categories: list, room_categories: list):
-    """
-    Menyimpan metadata fitur agar aplikasi Streamlit dapat memuat
-    nama kolom dan mapping kategori tanpa menjalankan ulang pelatihan.
-    """
+    """Save metadata for UI inference."""
     metadata = {
         "feature_cols": feature_cols,
         "icd_categories": icd_categories,
@@ -234,13 +178,8 @@ def save_feature_metadata(feature_cols: list, icd_categories: list, room_categor
     print("[INFO] Metadata fitur disimpan.")
 
 
-# ============================================================
-# 7. MAIN PIPELINE
-# ============================================================
 def main():
-    print("=" * 60)
-    print("  VeraMed AI — Pipeline Pelatihan Model Deteksi Fraud BPJS")
-    print("=" * 60)
+    print("Starting Training Pipeline...")
 
     # ── Load & Prepare ──────────────────────────────────────
     df_raw, df_proc = load_and_prepare(DATA_PATH)

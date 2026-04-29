@@ -1,14 +1,5 @@
-"""
-================================================================================
-  extractor.py — Medical Document Extraction Engine
-================================================================================
-  Menggunakan Google Gemini Vision API untuk membaca PDF/Gambar rekam medis
-  dan mengubahnya menjadi JSON terstruktur selaras dengan schema VeraMed AI.
-
-  Konfigurasi: baca GOOGLE_API_KEY & GEMINI_MODEL dari file .env
-  Format didukung: PDF, JPG, PNG, WEBP
-================================================================================
-"""
+# extractor.py - Medical Document Extraction Engine
+# Uses Google Gemini Vision API to parse PDF/images into structured JSON.
 
 import os
 import re
@@ -85,10 +76,7 @@ OUTPUT: Hanya JSON mentah. Tidak ada teks pembuka, penutup, atau markdown.
 # FUNGSI: KONVERSI PDF KE GAMBAR
 # ============================================================
 def pdf_to_images(pdf_bytes: bytes) -> list[bytes]:
-    """
-    Mengubah setiap halaman PDF menjadi gambar PNG (bytes).
-    Membutuhkan PyMuPDF (fitz).
-    """
+    """Convert PDF pages to PNG images."""
     if not PYMUPDF_AVAILABLE:
         raise ImportError("PyMuPDF tidak terinstall. Jalankan: pip install pymupdf")
     
@@ -122,18 +110,7 @@ def extract_with_gemini(
     api_key: str = "",
     model_name: str = ""
 ) -> dict:
-    """
-    Mengirim dokumen ke Gemini Vision API dan mengekstrak data JSON.
-    
-    Args:
-        file_bytes : konten file sebagai bytes
-        file_ext   : ekstensi file (.pdf, .jpg, .png, dll.)
-        api_key    : Google AI API Key
-        model_name : model Gemini yang digunakan
-    
-    Returns:
-        dict hasil ekstraksi JSON, atau dict error jika gagal
-    """
+    """Extract JSON data from document using Gemini Vision API."""
     if not GEMINI_AVAILABLE:
         raise ImportError("google-generativeai tidak terinstall. Jalankan: pip install google-generativeai")
 
@@ -200,10 +177,7 @@ def extract_with_gemini(
 # FUNGSI: SANITASI HASIL EKSTRAKSI
 # ============================================================
 def sanitize_extraction(data: dict) -> dict:
-    """
-    Memastikan semua field memiliki tipe data yang benar
-    sesuai schema VeraMed AI sebelum dikirim ke model ML.
-    """
+    """Validate and clean extracted JSON fields."""
     VALID_ROOMS = {"SAPHIRE", "ZAMRUD", "BERLIAN"}
     
     sanitized = {
@@ -243,10 +217,7 @@ def sanitize_extraction(data: dict) -> dict:
 # FUNGSI: MOCK EXTRACTION (untuk demo tanpa API key)
 # ============================================================
 def mock_extraction(filename: str = "") -> dict:
-    """
-    Mengembalikan data demo untuk pengujian UI tanpa API key Gemini.
-    Memilih skenario berbeda berdasarkan nama file.
-    """
+    """Return dummy data for testing without API key."""
     import random
     rng = random.Random(hash(filename) % 1000)
     
@@ -299,23 +270,7 @@ def extract_from_document(
     api_key: str = "",
     use_mock: bool = False
 ) -> dict:
-    """
-    Entry point utama untuk ekstraksi dokumen medis.
-
-    Urutan prioritas API key:
-      1. Argumen `api_key` (dari UI input)
-      2. Environment variable GOOGLE_API_KEY (dari .env)
-      3. Fallback ke mode mock jika keduanya kosong
-
-    Args:
-        file_bytes : konten file dalam bytes
-        filename   : nama file asli (untuk deteksi ekstensi)
-        api_key    : API key opsional dari UI
-        use_mock   : paksa gunakan mode demo
-
-    Returns:
-        dict hasil ekstraksi sesuai schema VeraMed AI
-    """
+    """Main entry point for document extraction."""
     if use_mock:
         return mock_extraction(filename)
 

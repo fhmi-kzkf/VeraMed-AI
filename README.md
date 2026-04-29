@@ -28,6 +28,35 @@ Dashboard berbasis Streamlit yang menyajikan:
 
 ---
 
+## 🏗️ Arsitektur Sistem
+
+```mermaid
+graph TD
+    A[📄 Dokumen Rekam Medis] --> B[👁️ Gemini Vision AI]
+    B --> C{🔍 Clinical Rule Engine}
+    C --> D[⚙️ Hybrid ML Scoring]
+    D --> E[1. Supervised: XGBoost]
+    D --> F[2. Unsupervised: Isolation Forest]
+    E --> G[🏁 Final Risk Score]
+    F --> G
+    G --> H[📊 Dashboard Analytics]
+```
+
+---
+
+## 📊 Model Performance Highlights
+
+Jangan biarkan angka efektivitas tersembunyi. Berikut adalah ringkasan performa **VeraEngine v4.2**:
+
+| Metric | Score | Note |
+| :--- | :--- | :--- |
+| **ROC-AUC** | **0.9886** | **Excellent Performance** |
+| XGBoost Accuracy | 95.0% | High precision in fraud pattern matching |
+| Fraud Miss Rate | 6.5% | Minimal leakage of suspicious claims |
+| Identified Risk | Rp 1.21 Billion | Potential saving from synthetic test data |
+
+---
+
 ## 🛠️ Teknologi yang Digunakan
 *   **Core**: Python 3.10+
 *   **Machine Learning**: XGBoost, Scikit-Learn (Isolation Forest)
@@ -100,6 +129,15 @@ VeraMed AI tidak hanya mengandalkan angka, tapi juga aturan medis yang kaku:
 ├── models/                  # Folder penyimpanan model .pkl
 └── bpjs_claims_synthetic.csv # Dataset pelatihan
 ```
+
+---
+
+## 🛡️ Data Privacy & Future Roadmap
+
+Mengingat sensitivitas data kesehatan, VeraMed AI dirancang dengan visi tata kelola data yang ketat:
+
+*   **Prototype Phase**: Saat ini menggunakan **Gemini 2.0 Flash Lite** untuk ekstraksi dokumen kognitif yang cepat dan akurat melalui enkripsi TLS.
+*   **Production Phase**: Transisi ke **Gemma (Local LLM)** yang dideploy secara *on-premise* menggunakan infrastruktur **AWS SageMaker**. Langkah ini memastikan kedaulatan data penuh dan kepatuhan terhadap regulasi privasi data pasien (**GDPR** & **UU PDP Indonesia**), di mana data medis tidak pernah keluar dari jaringan internal rumah sakit/BPJS.
 
 ---
 
